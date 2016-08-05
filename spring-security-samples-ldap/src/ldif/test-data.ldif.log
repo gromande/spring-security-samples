@@ -1,0 +1,81 @@
+#!RESULT OK
+#!CONNECTION ldap://localhost:1389
+#!DATE 2016-08-01T16:52:55.521
+dn: ou=groups,dc=example,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: groups
+
+#!RESULT OK
+#!CONNECTION ldap://localhost:1389
+#!DATE 2016-08-01T16:52:55.528
+dn: ou=people,dc=example,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: people
+
+#!RESULT OK
+#!CONNECTION ldap://localhost:1389
+#!DATE 2016-08-01T16:52:55.536
+dn: ou=roles,dc=example,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: roles
+
+#!RESULT OK
+#!CONNECTION ldap://localhost:1389
+#!DATE 2016-08-01T16:52:55.545
+dn: uid=user,ou=people,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: inetOrgPerson
+mail: user@example.com
+uid: user
+userPassword: password
+sn: John
+cn: Doe
+title: engineer
+
+#!RESULT OK
+#!CONNECTION ldap://localhost:1389
+#!DATE 2016-08-01T16:52:55.555
+dn: uid=admin,ou=people,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: inetOrgPerson
+mail: admin@example.com
+uid: admin
+userPassword: password
+sn: Bob
+cn: Jenkins
+
+#!RESULT OK
+#!CONNECTION ldap://localhost:1389
+#!DATE 2016-08-01T16:52:55.560
+dn: cn=user,ou=groups,dc=example,dc=com
+objectclass: top
+objectclass: groupOfUniqueNames
+cn: user
+uniqueMember: uid=admin,ou=people,dc=example,dc=com
+uniqueMember: uid=user,ou=people,dc=example,dc=com
+
+#!RESULT OK
+#!CONNECTION ldap://localhost:1389
+#!DATE 2016-08-01T16:52:55.567
+dn: cn=admin,ou=groups,dc=example,dc=com
+objectclass: top
+objectclass: groupOfUniqueNames
+cn: admin
+uniqueMember: uid=admin,ou=people,dc=example,dc=com
+
+#!RESULT ERROR
+#!CONNECTION ldap://localhost:1389
+#!DATE 2016-08-01T16:52:55.571
+#!ERROR [LDAP: error code 65 - Entry cn=engineering,ou=groups,dc=example,dc=com violates the Directory Server schema configuration because it includes attribute ds-target-group-dn which is not allowed by any of the objectclasses defined in that entry]
+dn: cn=engineering,ou=groups,dc=example,dc=com
+objectClass: top
+objectclass: groupOfNames
+objectClass: ds-virtual-static-group
+cn: engineering
+ds-target-group-dn: cn=engineer,ou=roles,dc=example,dc=com
+

@@ -1,0 +1,61 @@
+dn: ou=groups,dc=example,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: groups
+
+dn: ou=people,dc=example,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: people
+
+dn: ou=roles,dc=example,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: roles
+
+dn: uid=jdoe,ou=people,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: inetOrgPerson
+mail: jdoe@example.com
+uid: jdoe
+userPassword: password
+sn: Doe
+cn: John
+title: engineer
+
+dn: uid=bjenkins,ou=people,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: inetOrgPerson
+mail: asmith@example.com
+uid: asmith
+userPassword: password
+sn: Jenkins
+cn: Bob
+
+dn: cn=user,ou=groups,dc=example,dc=com
+objectclass: top
+objectclass: groupOfUniqueNames
+cn: user
+uniqueMember: uid=asmith,ou=people,dc=example,dc=com
+uniqueMember: uid=jdoe,ou=people,dc=example,dc=com
+
+dn: cn=admin,ou=groups,dc=example,dc=com
+objectclass: top
+objectclass: groupOfUniqueNames
+cn: admin
+uniqueMember: uid=asmith,ou=people,dc=example,dc=com
+
+dn: cn=engineering,ou=groups,dc=example,dc=com
+objectClass: top
+objectclass: groupOfUniqueNames
+objectClass: ds-virtual-static-group
+cn: engineering
+ds-target-group-dn: cn=engineer,ou=roles,dc=example,dc=com
+
+dn: cn=engineer,ou=roles,dc=example,dc=com
+objectClass: top
+objectClass: groupOfURLs
+cn: engineer
+memberURL: ldap:///ou=people,dc=example,dc=com??sub?title=engineer
